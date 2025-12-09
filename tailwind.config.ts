@@ -1,0 +1,173 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+    content: [
+        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    ],
+    theme: {
+        extend: {
+            colors: {
+                // Premium color palette
+                primary: {
+                    50: '#f0f4ff',
+                    100: '#e0e9ff',
+                    200: '#c7d6fe',
+                    300: '#a4b8fc',
+                    400: '#818cf8',
+                    500: '#6366f1',
+                    600: '#4f46e5',
+                    700: '#4338ca',
+                    800: '#3730a3',
+                    900: '#312e81',
+                    950: '#1e1b4b',
+                },
+                secondary: {
+                    50: '#f5f3ff',
+                    100: '#ede9fe',
+                    200: '#ddd6fe',
+                    300: '#c4b5fd',
+                    400: '#a78bfa',
+                    500: '#8b5cf6',
+                    600: '#7c3aed',
+                    700: '#6d28d9',
+                    800: '#5b21b6',
+                    900: '#4c1d95',
+                    950: '#2e1065',
+                },
+                accent: {
+                    50: '#ecfeff',
+                    100: '#cffafe',
+                    200: '#a5f3fc',
+                    300: '#67e8f9',
+                    400: '#22d3ee',
+                    500: '#06b6d4',
+                    600: '#0891b2',
+                    700: '#0e7490',
+                    800: '#155e75',
+                    900: '#164e63',
+                    950: '#083344',
+                },
+                success: {
+                    50: '#f0fdf4',
+                    100: '#dcfce7',
+                    200: '#bbf7d0',
+                    300: '#86efac',
+                    400: '#4ade80',
+                    500: '#22c55e',
+                    600: '#16a34a',
+                    700: '#15803d',
+                    800: '#166534',
+                    900: '#14532d',
+                },
+                warning: {
+                    50: '#fffbeb',
+                    100: '#fef3c7',
+                    200: '#fde68a',
+                    300: '#fcd34d',
+                    400: '#fbbf24',
+                    500: '#f59e0b',
+                    600: '#d97706',
+                    700: '#b45309',
+                    800: '#92400e',
+                    900: '#78350f',
+                },
+                danger: {
+                    50: '#fef2f2',
+                    100: '#fee2e2',
+                    200: '#fecaca',
+                    300: '#fca5a5',
+                    400: '#f87171',
+                    500: '#ef4444',
+                    600: '#dc2626',
+                    700: '#b91c1c',
+                    800: '#991b1b',
+                    900: '#7f1d1d',
+                },
+                slate: {
+                    850: '#172033',
+                    950: '#0a0f1a',
+                },
+            },
+            fontFamily: {
+                sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+                display: ['var(--font-outfit)', 'Outfit', 'system-ui', 'sans-serif'],
+            },
+            boxShadow: {
+                'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+                'glass-lg': '0 25px 50px -12px rgba(31, 38, 135, 0.25)',
+                'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+                'soft-lg': '0 10px 40px -10px rgba(0, 0, 0, 0.1), 0 2px 10px -2px rgba(0, 0, 0, 0.04)',
+                'glow': '0 0 40px rgba(99, 102, 241, 0.15)',
+                'glow-lg': '0 0 60px rgba(99, 102, 241, 0.25)',
+                'card': '0 1px 3px rgba(0,0,0,0.08), 0 4px 14px rgba(0,0,0,0.04)',
+                'card-hover': '0 8px 30px rgba(0,0,0,0.12)',
+                'elevated': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+            },
+            borderRadius: {
+                '4xl': '2rem',
+                '5xl': '2.5rem',
+            },
+            backdropBlur: {
+                xs: '2px',
+            },
+            animation: {
+                'float': 'float 6s ease-in-out infinite',
+                'float-slow': 'float 8s ease-in-out infinite',
+                'float-delayed': 'float 6s ease-in-out 2s infinite',
+                'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+                'gradient': 'gradient 8s linear infinite',
+                'shimmer': 'shimmer 2s linear infinite',
+                'slide-up': 'slide-up 0.5s ease-out',
+                'slide-down': 'slide-down 0.5s ease-out',
+                'fade-in': 'fade-in 0.3s ease-out',
+                'scale-in': 'scale-in 0.2s ease-out',
+                'spin-slow': 'spin 3s linear infinite',
+            },
+            keyframes: {
+                float: {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-20px)' },
+                },
+                'pulse-soft': {
+                    '0%, 100%': { opacity: '1' },
+                    '50%': { opacity: '0.5' },
+                },
+                gradient: {
+                    '0%, 100%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                },
+                shimmer: {
+                    '0%': { backgroundPosition: '-200% 0' },
+                    '100%': { backgroundPosition: '200% 0' },
+                },
+                'slide-up': {
+                    '0%': { transform: 'translateY(10px)', opacity: '0' },
+                    '100%': { transform: 'translateY(0)', opacity: '1' },
+                },
+                'slide-down': {
+                    '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                    '100%': { transform: 'translateY(0)', opacity: '1' },
+                },
+                'fade-in': {
+                    '0%': { opacity: '0' },
+                    '100%': { opacity: '1' },
+                },
+                'scale-in': {
+                    '0%': { transform: 'scale(0.95)', opacity: '0' },
+                    '100%': { transform: 'scale(1)', opacity: '1' },
+                },
+            },
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                'mesh-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'glass-gradient': 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+            },
+        },
+    },
+    plugins: [],
+};
+
+export default config;

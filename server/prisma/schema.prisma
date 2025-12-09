@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./avis.db"
+}
+
+// User model - supports Owner, Manager, Employee roles
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password      String
+  name          String
+  phone         String?
+  avatar        String?
+  role          Role     @default(EMPLOYEE)
+  designation   String?
+  department    String?
+  joinDate      DateTime @default(now())
+  status        UserStatus @default(ACTIVE)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Manager assignment (for employees)
+  managerId     String?
+  manager       User?    @relation("ManagerEmployees", fields: [managerId], references: [id])
+  employees     User[]   @relation("ManagerEmployees")
+
+  // Tasks assigned to this user
+  assignedTasks Task[]   @relation("TaskAssignee")
+  createdTasks  Task[]   @relation("TaskCreator")
+
+  // Attendance records
+  attendance    Attendance[]
+
+  // Leave requests
+  leaveRequests LeaveRequest[] @relation("LeaveRequestEmployee")
+  leaveReviews  LeaveRequest[] @relation("LeaveRequestReviewer")
+
+  // Task comments
+  comments      Comment[]
+}
+
+enum Role {
+  OWNER
+  MANAGER
+  EMPLOYEE
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  ON_LEAVE
+}
+
+// Task model
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus @default(PENDING)
+  priority    Priority   @default(MEDIUM)
+  deadline    DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relationships
+  assigneeId  String
+  assignee    User       @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  
+  createdById String
+  createdBy   User       @relation("TaskCreator", fields: [createdById], references: [id])
+
+  comments    Comment[]
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  UNDER_REVIEW
+  COMPLETED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// Comment model for task discussions
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+}
+
+// Attendance model
+model Attendance {
+  id        String   @id @default(cuid())
+  date      DateTime @default(now())
+  clockIn   DateTime?
+  clockOut  DateTime?
+  status    AttendanceStatus @default(PRESENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  HALF_DAY
+  ON_LEAVE
+}
+
+// Leave Request model
+model LeaveRequest {
+  id          String       @id @default(cuid())
+  type        LeaveType
+  startDate   DateTime
+  endDate     DateTime
+  reason      String
+  status      LeaveStatus  @default(PENDING)
+  appliedAt   DateTime     @default(now())
+  reviewedAt  DateTime?
+
+  employeeId  String
+  employee    User         @relation("LeaveRequestEmployee", fields: [employeeId], references: [id])
+
+  reviewerId  String?
+  reviewer    User?        @relation("LeaveRequestReviewer", fields: [reviewerId], references: [id])
+}
+
+enum LeaveType {
+  CASUAL
+  SICK
+  EARNED
+  UNPAID
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}

@@ -319,4 +319,114 @@ export default function LeavesPage() {
                         <div className="space-y-3">
                             {[
                                 { name: "Christmas", date: "Dec 25" },
-                                { 
+                                { name: "New Year", date: "Jan 1" },
+                                { name: "Republic Day", date: "Jan 26" }
+                            ].map((holiday, i) => (
+                                <div key={i} className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                                    <span className="text-sm font-medium text-slate-700">{holiday.name}</span>
+                                    <span className="text-sm text-slate-500">{holiday.date}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </Card>
+                </motion.div>
+            </div >
+
+            {showApplyModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-xl"
+                    >
+                        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+                            <h3 className="text-lg font-bold text-slate-900">Apply for Leave</h3>
+                            <button onClick={() => setShowApplyModal(false)} className="text-slate-400 hover:text-slate-600">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleApplyLeave} className="p-6 space-y-4">
+                            {error && (
+                                <div className="p-3 bg-danger-50 text-danger-700 text-sm rounded-lg flex items-center gap-2">
+                                    <XCircle className="w-4 h-4" />
+                                    {error}
+                                </div>
+                            )}
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-slate-700">Leave Type</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {["CASUAL", "SICK", "EARNED", "UNPAID"].map((type) => (
+                                        <button
+                                            key={type}
+                                            type="button"
+                                            onClick={() => setFormData({ ...formData, type: type as any })}
+                                            className={clsx(
+                                                "px-3 py-2 rounded-lg text-sm border transition-all",
+                                                formData.type === type
+                                                    ? "bg-primary-50 border-primary-500 text-primary-700"
+                                                    : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
+                                            )}
+                                        >
+                                            {type.charAt(0) + type.slice(1).toLowerCase()}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-slate-700">Start Date</label>
+                                    <input
+                                        type="date"
+                                        required
+                                        value={formData.startDate}
+                                        onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-slate-700">End Date</label>
+                                    <input
+                                        type="date"
+                                        required
+                                        value={formData.endDate}
+                                        onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-slate-700">Reason</label>
+                                <textarea
+                                    required
+                                    value={formData.reason}
+                                    onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                                    rows={3}
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 resize-none"
+                                    placeholder="Why are you taking leave?"
+                                />
+                            </div>
+
+                            <div className="pt-2 flex gap-3">
+                                <Button
+                                    variant="outline"
+                                    fullWidth
+                                    onClick={() => setShowApplyModal(false)}
+                                    type="button"
+                                >
+                                    Cancel
+                                </Button>
+                                <Button fullWidth type="submit">
+                                    Submit Request
+                                </Button>
+                            </div>
+                        </form>
+                    </motion.div>
+                </div>
+            )}
+
+        </motion.div >
+    );
+}

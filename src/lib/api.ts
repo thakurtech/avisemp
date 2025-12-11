@@ -1,5 +1,5 @@
 // API Service for connecting to the backend
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 // Get token from localStorage
 const getToken = (): string | null => {
